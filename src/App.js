@@ -3,6 +3,7 @@ import './App.css';
 import {Search} from './components/Search';
 import {getCoinInfo} from './Utils/api';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +18,13 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if(this.state.searchTerm !== prevState.searchTerm) {
-      getCoinInfo(this.state.searchTerm);
+      try {
+        getCoinInfo(this.state.searchTerm)
+          .then(resp => console.log(resp))
+      } catch(error) {
+        console.log(error);
+      }
+       
     }
   }
 
@@ -32,9 +39,15 @@ class App extends Component {
 
   render() {
     return (
-      <Search
-        onSearchChange={this.handleSearchChange}
-      />
+      <React.Fragment>
+        <div className='container'>
+          <h1>Crypto Vis</h1>
+          <Search
+            onSearchChange={this.handleSearchChange}
+          />
+        
+        </div>
+      </React.Fragment>
     )
   }
 }

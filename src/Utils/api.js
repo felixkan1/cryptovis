@@ -10,7 +10,7 @@ export const getCoinInfo = (searchTerm) => {
   return CoinGeckoClient.coins.fetch(searchTerm)
     .then(response => {
       if(response.success){
-        console.log(response) 
+        return response;
       } else if(!response.success) {
         return Promise.reject('error 404')
       } else {
@@ -18,6 +18,7 @@ export const getCoinInfo = (searchTerm) => {
       }
       
     })
+    .catch(error => console.log(error))
     
 
 

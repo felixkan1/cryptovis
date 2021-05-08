@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import {Coinlist} from './Coinlist';
 //incorporate typing suggestion: https://webdevtrick.com/javascript-typing-suggestions/
 
 export class Search extends Component {
@@ -23,13 +23,13 @@ export class Search extends Component {
                 <input
                   type='text'
                   id='searchTerm'
-                  className={`search-bar`}
-                  placeholder='ie. doge'
+                  placeholder='ie. dogecoin'
                   autoComplete='off'
                   value={this.props.searchTerm}
                   onChange={this.handleChange}
                 />
         </div>
+        <Coinlist/>
       </div>
 
     )
