@@ -34,7 +34,7 @@ h1 {
   margin-left: 10px;
 }
 
-.search-bar input{
+.search-bar input {
   width: 80%;
   height: 80%;
   font-size: 60px;
@@ -60,6 +60,7 @@ h1 {
 .coin-list li {
   border: 1px solid black;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .coin {

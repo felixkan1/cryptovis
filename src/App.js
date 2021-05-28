@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-fragments */
+/* eslint-disable */
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import LoadingBar from 'react-redux-loading-bar';
