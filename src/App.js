@@ -1,55 +1,27 @@
-import React, {Component} from 'react';
+/* eslint-disable react/jsx-fragments */
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import LoadingBar from 'react-redux-loading-bar';
+import { handleInitialData } from './actions/home';
 import './App.css';
-import {Search} from './components/Search';
-import {getCoinInfo} from './Utils/api';
+import { Search } from './components/Search';
 
+function App() {
+  const dispatch = useDispatch();
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+  useEffect(() => {
+    dispatch(handleInitialData());
+  }, [dispatch]);
 
-    this.state = {
-      searchTerm: '',
-      coin: '',
-      theme: 'light'
-    }
-    this.handleSearchChange = this.handleSearchChange.bind(this);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if(this.state.searchTerm !== prevState.searchTerm) {
-      try {
-        getCoinInfo(this.state.searchTerm)
-          .then(resp => console.log(resp))
-      } catch(error) {
-        console.log(error);
-      }
-       
-    }
-  }
-
-  
-
-
-
-  handleSearchChange(searchTerm) {
-    this.setState({searchTerm});
-    console.log(this.state.searchTerm)
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        <div className='container'>
-          <h1>Crypto Vis</h1>
-          <Search
-            onSearchChange={this.handleSearchChange}
-          />
-        
-        </div>
-      </React.Fragment>
-    )
-  }
+  return (
+    <React.Fragment>
+      <LoadingBar showFastActions />
+      <div className="container">
+        <h1>Crypto Vis</h1>
+        <Search />
+      </div>
+    </React.Fragment>
+  );
 }
 
 export default App;

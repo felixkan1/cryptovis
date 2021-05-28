@@ -1,27 +1,8 @@
-//1. Import coingecko-api
-const CoinGecko = require('coingecko-api');
-
-//2. Initiate the CoinGecko API Client
-const CoinGeckoClient = new CoinGecko();
-
-//3. Make calls
-export const getCoinInfo = (searchTerm) => {
-  if(!searchTerm) return;
-  return CoinGeckoClient.coins.fetch(searchTerm)
-    .then(response => {
-      if(response.success){
-        return response;
-      } else if(!response.success) {
-        return Promise.reject('error 404')
-      } else {
-        return Promise.reject('some other reason')
-      }
-      
-    })
-    .catch(error => console.log(error))
-    
-
-
-};
-
-
+/* eslint-disable */
+export function getInitialData() {
+  return fetch(
+    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc'
+  )
+    .then((data) => data.json())
+    .then((coins) => console.log(coins));
+}
