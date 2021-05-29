@@ -1,25 +1,21 @@
 /* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link, useHistory } from 'react-router-dom';
 
-export function Coinlist({
-  name,
-  image,
-  current_price,
-  price_change_percentage_24h,
-}) {
-  current_price = numberWithCommas(current_price);
+export function Coinlist({ coin }) {
+  const { name, image, id, price_change_percentage_24h } = coin;
+  const current_price = numberWithCommas(coin.current_price);
   return (
-    <li>
-      <div className="coin">
-        <div className="coin-meta-data">
+    <Link to={`/currency/${id}`} className="coin">
+      <div className="coin-info">
+        <div>
           <img src={image} alt="coin" />
-
           <span className="coin-name">{name}</span>
         </div>
         <p className="coin-price">${current_price}</p>
       </div>
-    </li>
+    </Link>
   );
 }
 
@@ -30,6 +26,7 @@ Coinlist.propTypes = {
   price_change_percentage_24h: PropTypes.number.isRequired,
 };
 
+//need to change this function to account for small decimals
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
