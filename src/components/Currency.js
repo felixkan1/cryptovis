@@ -13,6 +13,11 @@ function coinReducer(state, action) {
       coinData: action.coinData,
       loading: action.loading,
     };
+  } else if (action.type === 'change time') {
+    return {
+      ...state,
+      selected: action.selected,
+    };
   } else if (action.type === 'error') {
     return {
       ...state,
@@ -28,17 +33,8 @@ export function Currency() {
   const [state, dispatch] = useReducer(coinReducer, {
     coinData: {},
     loading: true,
+    selected: 'day',
   });
-
-  //takes in prices array [time, price]
-  const formatData = (data) => {
-    return data.map((el) => {
-      return {
-        x: el[0],
-        y: el[1],
-      };
-    });
-  };
 
   useEffect(() => {
     Promise.all([
@@ -59,12 +55,48 @@ export function Currency() {
       });
     });
   }, []);
-  console.log('coin data', state.coinData);
+
+  const handleChangeTime = (time) => {
+    dispatch({
+      type: 'change time',
+      selected: time,
+    });
+  };
+
   return (
     <React.Fragment>
       <h1>{coin}</h1>
-      {state.loading && <Loading text="Loading Chart" />}
-      {!state.loading && <HistoryChart coin={coin} data={state.coinData} />}
+      <div>
+        <button
+          value="day"
+          className="btn-clear"
+          onClick={() => handleChangeTime('day')}
+        >
+          1D
+        </button>
+        <button
+          value="week"
+          className="btn-clear"
+          onClick={() => handleChangeTime('week')}
+        >
+          7D
+        </button>
+        <button
+          value="year"
+          className="btn-clear"
+          onClick={() => handleChangeTime('year')}
+        >
+          1Y
+        </button>
+        {state.loading && <Loading text="Loading Chart" />}
+        {!state.loading && (
+          <HistoryChart
+            coin={coin}
+            data={state.coinData[state.selected]}
+            selected={state.selected}
+          />
+        )}
+      </div>
     </React.Fragment>
   );
 }

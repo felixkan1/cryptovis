@@ -74,7 +74,21 @@ h1 {
   justify-content: space-between;
 }
 
+.btn-clear {
+  border: 1px solid rgb(239, 239, 239);
+  color: black;
+  border-radius: 4px;
+  background: transparent;
+  padding: 5px 10px;
+  margin-left: 20px;
+  font-size: inherit;
+  cursor: pointer;
+  transition: 0.5s all ease;
+}
 
+.btn-clear:hover {
+  background-color: cadetblue;
+}
 
 
 .coin-price {
