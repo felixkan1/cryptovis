@@ -28,5 +28,8 @@ Coinlist.propTypes = {
 
 //need to change this function to account for small decimals
 function numberWithCommas(x) {
+  if (x <= 1) {
+    return x;
+  }
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }

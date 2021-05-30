@@ -68,22 +68,19 @@ export function Currency() {
       <h1>{coin}</h1>
       <div>
         <button
-          value="day"
-          className="btn-clear"
+          className={`btn-clear ${state.selected === 'day' ? 'active' : ''}`}
           onClick={() => handleChangeTime('day')}
         >
           1D
         </button>
         <button
-          value="week"
-          className="btn-clear"
+          className={`btn-clear ${state.selected === 'week' ? 'active' : ''}`}
           onClick={() => handleChangeTime('week')}
         >
           7D
         </button>
         <button
-          value="year"
-          className="btn-clear"
+          className={`btn-clear ${state.selected === 'year' ? 'active' : ''}`}
           onClick={() => handleChangeTime('year')}
         >
           1Y

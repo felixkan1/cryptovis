@@ -27,29 +27,38 @@ export const formatData = (coin, time) => {
 const selectTimeFormat = (selected) => {
   if (selected === 'day') {
     return {
-      displayFormats: {
-        quarter: 'MMM YYYY',
-      },
+      unit: 'hour',
+      tooltipFormat: 'MMM DD',
     };
   } else if (selected === 'week') {
     return {
-      displayFormats: {
-        quarter: 'MMM YYYY',
-      },
+      unit: 'day',
+      tooltipFormat: 'MMM DD',
     };
   } else if (selected === 'year') {
     return {
-      displayFormats: {
-        quarter: 'MMM YYYY',
-      },
+      unit: 'month',
+      tooltipFormat: 'MMM DD',
     };
   }
+};
+
+const numberWithCommas = (x) => {
+  if (x <= 1) {
+    return x;
+  }
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
 export const historyOptions = (selected) => {
   const timeFormat = selectTimeFormat(selected);
 
   return {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
     lineHeightAnnotation: {
       always: true,
       hover: false,
@@ -66,11 +75,17 @@ export const historyOptions = (selected) => {
         type: 'time',
         distribution: 'linear',
         time: timeFormat,
+        ticks: {
+          callback: function (val, index) {
+            return index % 2 === 0 ? val : '';
+          },
+        },
       },
       y: {
-        title: {
-          display: true,
-          text: 'Price ($)',
+        ticks: {
+          callback: function (val, index) {
+            return '$' + numberWithCommas(val);
+          },
         },
       },
     },

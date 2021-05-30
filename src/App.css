@@ -16,7 +16,6 @@ h1 {
 .search-container {
   display: flex;
   flex-direction: column;
-
 }
 
 .search-bar {
@@ -43,6 +42,7 @@ h1 {
   margin: 0;
   margin-left: 15px;
   border: none;
+
 }
 
 .search-bar input:focus {
@@ -87,6 +87,11 @@ h1 {
 }
 
 .btn-clear:hover {
+  background-color: cadetblue;
+}
+
+
+.btn-clear.active {
   background-color: cadetblue;
 }
 
