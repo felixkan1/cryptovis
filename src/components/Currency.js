@@ -2,9 +2,12 @@
 import React, { useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { handleToggleWatch } from '../actions/watchList';
 import { HistoryChart } from './HistoryChart';
 import { getHistoriacalData } from '../Utils/api';
 import Loading from './Loading';
+import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 
 function coinReducer(state, action) {
   if (action.type === 'success') {
@@ -35,6 +38,8 @@ export function Currency() {
     loading: true,
     selected: 'day',
   });
+  const watchList = useSelector((state) => state.watchList);
+  const dispatchRedux = useDispatch();
 
   useEffect(() => {
     Promise.all([
@@ -63,9 +68,22 @@ export function Currency() {
     });
   };
 
+  const handleWatch = (evt, id) => {
+    evt.preventDefault();
+    dispatchRedux(handleToggleWatch(id));
+  };
+
   return (
     <React.Fragment>
-      <h1>{coin}</h1>
+      <div className="title">
+        <h1>{coin}</h1>
+        <button
+          className={`star-button ${watchList.includes(id)}`}
+          onClick={(evt) => handleWatch(evt, id)}
+        >
+          {watchList.includes(id) ? <AiFillStar /> : <AiOutlineStar />}
+        </button>
+      </div>
       <div>
         <button
           className={`btn-clear ${state.selected === 'day' ? 'active' : ''}`}

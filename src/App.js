@@ -7,7 +7,10 @@ import { handleInitialData } from './actions/home';
 import './App.css';
 import { Search } from './components/Search';
 import { Currency } from './components/Currency';
+import { Nav } from './components/Nav';
 import { Bar } from 'react-chartjs-2';
+import { About } from './components/About';
+import { WatchList } from './components/WatchList';
 
 function App() {
   const dispatch = useDispatch();
@@ -20,16 +23,25 @@ function App() {
   return (
     <Router>
       <LoadingBar showFastActions />
-      {loading === true ? null : (
-        <div className="container">
-          <Route path="/" exact>
-            <Search />
-          </Route>
-          <Route path="/currency/:id" exact>
-            <Currency />
-          </Route>
-        </div>
-      )}
+      <div className="container">
+        <Nav />
+        {loading === true ? null : (
+          <div>
+            <Route path="/" exact>
+              <Search />
+            </Route>
+            <Route path="/currency/:id" exact>
+              <Currency />
+            </Route>
+            <Route path="/about" exact>
+              <About />
+            </Route>
+            <Route path="/watchlist" exact>
+              <WatchList />
+            </Route>
+          </div>
+        )}
+      </div>
     </Router>
   );
 }

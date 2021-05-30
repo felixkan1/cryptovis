@@ -1,29 +1,48 @@
 /* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
+import { IconContext } from 'react-icons';
+import { handleToggleWatch } from '../actions/watchList';
 
-export function Coinlist({ coin }) {
-  const { name, image, id, price_change_percentage_24h } = coin;
-  const current_price = numberWithCommas(coin.current_price);
+export function Coinlist({ id }) {
+  const dispatch = useDispatch();
+  const coinList = useSelector((state) => state.coins);
+  const watchList = useSelector((state) => state.watchList);
+  const { name, image, current_price, price_change_percentage_24h } = coinList[
+    id
+  ];
+  const formattedPrice = numberWithCommas(current_price);
+
+  const handleWatch = (evt, id) => {
+    evt.preventDefault();
+    dispatch(handleToggleWatch(id));
+  };
+
   return (
     <Link to={`/currency/${id}`} className="coin">
       <div className="coin-info">
         <div>
+          <button
+            className={`star-button ${watchList.includes(id)}`}
+            onClick={(evt) => handleWatch(evt, id)}
+          >
+            {watchList.includes(id) ? <AiFillStar /> : <AiOutlineStar />}
+          </button>
+
           <img src={image} alt="coin" />
           <span className="coin-name">{name}</span>
         </div>
-        <p className="coin-price">${current_price}</p>
+        <p className="coin-price">${formattedPrice}</p>
       </div>
     </Link>
   );
 }
 
 Coinlist.propTypes = {
-  name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  current_price: PropTypes.number.isRequired,
-  price_change_percentage_24h: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 //need to change this function to account for small decimals
