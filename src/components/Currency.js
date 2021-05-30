@@ -34,7 +34,7 @@ export function Currency() {
   const formatData = (data) => {
     return data.map((el) => {
       return {
-        x: el[0].toString(),
+        x: el[0],
         y: el[1],
       };
     });
@@ -51,9 +51,9 @@ export function Currency() {
       dispatch({
         type: 'success',
         coinData: {
-          day: formatData(day.prices),
-          week: formatData(week.prices),
-          year: formatData(year.prices),
+          day: day.prices,
+          week: week.prices,
+          year: year.prices,
         },
         loading: false,
       });
@@ -64,9 +64,7 @@ export function Currency() {
     <React.Fragment>
       <h1>{coin}</h1>
       {state.loading && <Loading text="Loading Chart" />}
-      {!state.loading && (
-        <HistoryChart coin={coin} data={state.coinData.year} />
-      )}
+      {!state.loading && <HistoryChart coin={coin} data={state.coinData} />}
     </React.Fragment>
   );
 }
