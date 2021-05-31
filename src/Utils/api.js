@@ -15,3 +15,8 @@ export function getCoinData(id) {
     `https://api.coingecko.com/api/v3/coins/${id}?localization=false&tickers=false&market_data=false&community_data=true&developer_data=false&sparkline=false`
   ).then((data) => data.json());
 }
+
+export function getRedditFeed(subredditUrl) {
+  console.log(subredditUrl);
+  return fetch(`${subredditUrl}.json`).then((data) => data.json());
+}

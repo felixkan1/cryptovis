@@ -5,22 +5,29 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleToggleWatch } from '../actions/watchList';
 import { HistoryChart } from './HistoryChart';
-import { getHistoriacalData, getCoinData } from '../Utils/api';
+import { getHistoriacalData, getCoinData, getRedditFeed } from '../Utils/api';
 import Loading from './Loading';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
-
+import { TwitterTimelineEmbed } from 'react-twitter-embed';
+import { RedditFeed } from './RedditFeed';
 function coinReducer(state, action) {
-  if (action.type === 'success') {
+  if (action.type === 'initial data') {
     return {
       ...state,
       coinData: action.coinData,
       loading: action.loading,
       twitterName: action.twitterName,
+      subRedditUrl: action.subRedditUrl,
     };
   } else if (action.type === 'change time') {
     return {
       ...state,
       selected: action.selected,
+    };
+  } else if (action.type === 'got reddit feed') {
+    return {
+      ...state,
+      subRedditFeed: action.subRedditFeed,
     };
   } else if (action.type === 'error') {
     return {
@@ -39,6 +46,8 @@ export function Currency() {
     loading: true,
     selected: 'day',
     twitterName: '',
+    subRedditUrl: '',
+    subRedditFeed: null,
   });
   const watchList = useSelector((state) => state.watchList);
   const dispatchRedux = useDispatch();
@@ -52,9 +61,8 @@ export function Currency() {
     ]).then((data) => {
       const [day, week, year, coinData] = data;
       const { links } = coinData;
-      console.log('hi', links.twitter_screen_name);
       dispatch({
-        type: 'success',
+        type: 'initial data',
         coinData: {
           day: day.prices,
           week: week.prices,
@@ -65,9 +73,21 @@ export function Currency() {
           links.twitter_screen_name === 'btc'
             ? 'bitcoin'
             : links.twitter_screen_name,
+        subRedditUrl: links.subreddit_url,
       });
     });
   }, []);
+
+  useEffect(() => {
+    if (state.subRedditUrl) {
+      getRedditFeed(state.subRedditUrl).then((feed) => {
+        dispatch({
+          type: 'got reddit feed',
+          subRedditFeed: feed,
+        });
+      });
+    }
+  }, [state.subRedditUrl]);
 
   const handleChangeTime = (time) => {
     dispatch({
@@ -121,17 +141,17 @@ export function Currency() {
             />
           )}
         </div>
-        {state.twitterName && (
-          <div className="coin-social-feed">
-            <p>Twitter</p>
-            <a
-              class="twitter-timeline"
-              href={`https://twitter.com/${state.twitterName}?ref_src=twsrc%5Etfw`}
-            >
-              Tweets by {id}
-            </a>
-          </div>
-        )}
+
+        <div className="coin-social-feed">
+          {state.twitterName && (
+            <TwitterTimelineEmbed
+              sourceType="profile"
+              screenName={state.twitterName}
+              options={{ height: 400 }}
+            />
+          )}
+          {state.subRedditFeed && <RedditFeed feed={state.subRedditFeed} />}
+        </div>
       </div>
     </div>
   );
