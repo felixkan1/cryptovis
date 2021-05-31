@@ -38,7 +38,7 @@ export function Search() {
             .filter((coin) => {
               return coin.name.toLowerCase().includes(searchTerm.toLowerCase());
             })
-            .map((coin) => {
+            .map((coin, index) => {
               return <Coinlist key={coin.id} id={coin.id} />;
             })}
         </ul>

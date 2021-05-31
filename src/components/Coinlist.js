@@ -11,9 +11,13 @@ export function Coinlist({ id }) {
   const dispatch = useDispatch();
   const coinList = useSelector((state) => state.coins);
   const watchList = useSelector((state) => state.watchList);
-  const { name, image, current_price, price_change_percentage_24h } = coinList[
-    id
-  ];
+  const {
+    name,
+    image,
+    current_price,
+    market_cap_rank,
+    price_change_percentage_24h,
+  } = coinList[id];
   const formattedPrice = numberWithCommas(current_price);
 
   const handleWatch = (evt, id) => {
@@ -31,7 +35,7 @@ export function Coinlist({ id }) {
           >
             {watchList.includes(id) ? <AiFillStar /> : <AiOutlineStar />}
           </button>
-
+          <span>{market_cap_rank}</span>
           <img src={image} alt="coin" />
           <span className="coin-name">{name}</span>
         </div>

@@ -9,11 +9,11 @@ export function Nav() {
       <NavLink to="/" exact activeClassName="chosen">
         Home
       </NavLink>
-      <NavLink to="/about" exact activeClassName="chosen">
-        About
-      </NavLink>
       <NavLink to="/watchlist" exact activeClassName="chosen">
         Watch List
+      </NavLink>
+      <NavLink to="/about" exact activeClassName="chosen">
+        About
       </NavLink>
     </nav>
   );

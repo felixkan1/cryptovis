@@ -144,3 +144,18 @@ nav a {
 .title h1 {
   margin-top: 0;
 }
+
+.coin-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.coin-graph {
+  flex: 2;
+}
+
+.coin-social-feed {
+  flex: 1;
+  height: 400px;
+  overflow: scroll;
+}

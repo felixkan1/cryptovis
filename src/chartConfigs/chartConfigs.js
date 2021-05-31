@@ -8,8 +8,6 @@ export const formatData = (coin, time) => {
     yValues.push(ele[1]);
   });
 
-  console.log('x,y', xValues, yValues);
-
   return {
     labels: xValues,
     datasets: [
@@ -28,17 +26,17 @@ const selectTimeFormat = (selected) => {
   if (selected === 'day') {
     return {
       unit: 'hour',
-      tooltipFormat: 'MMM DD',
+      tooltipFormat: 'MMM dd',
     };
   } else if (selected === 'week') {
     return {
       unit: 'day',
-      tooltipFormat: 'MMM DD',
+      tooltipFormat: 'MMM dd',
     };
   } else if (selected === 'year') {
     return {
       unit: 'month',
-      tooltipFormat: 'MMM DD',
+      tooltipFormat: 'MMM dd',
     };
   }
 };
