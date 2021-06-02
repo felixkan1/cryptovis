@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -49,6 +49,7 @@ export function Currency() {
     subRedditUrl: '',
     subRedditFeed: null,
   });
+  const [socialFeed, setSocialFeed] = useState('twitter');
   const watchList = useSelector((state) => state.watchList);
   const dispatchRedux = useDispatch();
 
@@ -101,6 +102,10 @@ export function Currency() {
     dispatchRedux(handleToggleWatch(id));
   };
 
+  const handleChangeSocialFeed = (id) => {
+    setSocialFeed(id);
+  };
+
   return (
     <div>
       <div className="title">
@@ -143,14 +148,31 @@ export function Currency() {
         </div>
 
         <div className="coin-social-feed">
-          {state.twitterName && (
+          <div className="social-display">
+            <div>Social Feed</div>
+            <button onClick={() => handleChangeSocialFeed('twitter')}>
+              Twitter
+            </button>
+            <button onClick={() => handleChangeSocialFeed('reddit')}>
+              Reddit
+            </button>
+            <button onClick={() => handleChangeSocialFeed('google')}>
+              Google News
+            </button>
+          </div>
+          {state.twitterName && socialFeed === 'twitter' && (
             <TwitterTimelineEmbed
               sourceType="profile"
               screenName={state.twitterName}
               options={{ height: 400 }}
             />
           )}
-          {state.subRedditFeed && <RedditFeed feed={state.subRedditFeed} />}
+          {state.subRedditFeed && socialFeed === 'reddit' && (
+            <RedditFeed
+              feed={state.subRedditFeed}
+              subRedditUrl={state.subRedditUrl}
+            />
+          )}
         </div>
       </div>
     </div>

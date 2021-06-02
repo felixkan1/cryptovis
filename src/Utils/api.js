@@ -17,6 +17,5 @@ export function getCoinData(id) {
 }
 
 export function getRedditFeed(subredditUrl) {
-  console.log(subredditUrl);
   return fetch(`${subredditUrl}.json`).then((data) => data.json());
 }
