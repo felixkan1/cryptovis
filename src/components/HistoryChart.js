@@ -5,13 +5,14 @@ import 'chartjs-adapter-date-fns';
 import { historyOptions, formatData } from '../chartConfigs/chartConfigs';
 export function HistoryChart({ coin, data, selected }) {
   const chartData = formatData(coin, data);
-
+  const yMax = chartData.yMax;
+  console.log(yMax);
   return (
     <div>
       {chartData && (
         <Line
           data={chartData}
-          options={historyOptions(selected)}
+          options={historyOptions(selected, yMax)}
           height={400}
           width={600}
         />
@@ -19,3 +20,5 @@ export function HistoryChart({ coin, data, selected }) {
     </div>
   );
 }
+
+export const MemoizedHistoryChart = React.memo(HistoryChart);

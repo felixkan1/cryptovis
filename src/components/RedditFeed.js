@@ -12,7 +12,7 @@ export function RedditFeed({ feed, subRedditUrl }) {
   console.log(feed);
 
   return (
-    <div>
+    <div className="reddit-feed">
       <h5>
         links from <a href={subRedditUrl}>{path}</a>
       </h5>

@@ -4,17 +4,21 @@ import PropTypes from 'prop-types';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleToggleWatch } from '../actions/watchList';
-import { HistoryChart } from './HistoryChart';
+import { MemoizedHistoryChart } from './HistoryChart';
 import { getHistoriacalData, getCoinData, getRedditFeed } from '../Utils/api';
 import Loading from './Loading';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import { RedditFeed } from './RedditFeed';
+import { GoogleNews } from './GoogleNews';
+
 function coinReducer(state, action) {
   if (action.type === 'initial data') {
     return {
       ...state,
       coinData: action.coinData,
+      price: action.price,
+      priceChange: action.priceChange,
       loading: action.loading,
       twitterName: action.twitterName,
       subRedditUrl: action.subRedditUrl,
@@ -43,6 +47,7 @@ export function Currency() {
   const coin = id.charAt(0).toUpperCase() + id.slice(1);
   const [state, dispatch] = useReducer(coinReducer, {
     coinData: {},
+    price: null,
     loading: true,
     selected: 'day',
     twitterName: '',
@@ -57,18 +62,29 @@ export function Currency() {
     Promise.all([
       getHistoriacalData(id, '1'),
       getHistoriacalData(id, '7'),
+      getHistoriacalData(id, '30'),
       getHistoriacalData(id, '365'),
       getCoinData(id),
     ]).then((data) => {
-      const [day, week, year, coinData] = data;
-      const { links } = coinData;
+      const [day, week, month, year, coinData] = data;
+      const {
+        links,
+        market_data: {
+          current_price: { usd },
+          price_change_percentage_24h,
+        },
+      } = coinData;
+      console.log(coinData);
       dispatch({
         type: 'initial data',
         coinData: {
           day: day.prices,
           week: week.prices,
+          month: month.prices,
           year: year.prices,
         },
+        price: usd,
+        priceChange: price_change_percentage_24h,
         loading: false,
         twitterName:
           links.twitter_screen_name === 'btc'
@@ -109,13 +125,23 @@ export function Currency() {
   return (
     <div>
       <div className="title">
-        <h1>{coin}</h1>
-        <button
-          className={`star-button ${watchList.includes(id)}`}
-          onClick={(evt) => handleWatch(evt, id)}
-        >
-          {watchList.includes(id) ? <AiFillStar /> : <AiOutlineStar />}
-        </button>
+        <div className="coin-name">
+          <h1>{coin}</h1>
+          <button
+            className={`star-button ${watchList.includes(id)}`}
+            onClick={(evt) => handleWatch(evt, id)}
+          >
+            {watchList.includes(id) ? <AiFillStar /> : <AiOutlineStar />}
+          </button>
+        </div>
+        <div>
+          <h2>
+            {state.price && `$${numberWithCommas(state.price)}`}&nbsp;&nbsp;
+            <span style={{ color: state.priceChange < 0 ? 'red' : 'green' }}>
+              {state.priceChange && `${state.priceChange.toFixed(2)}%`}
+            </span>
+          </h2>
+        </div>
       </div>
       <div className="coin-info">
         <div className="coin-graph">
@@ -132,6 +158,14 @@ export function Currency() {
             7D
           </button>
           <button
+            className={`btn-clear ${
+              state.selected === 'month' ? 'active' : ''
+            }`}
+            onClick={() => handleChangeTime('month')}
+          >
+            1M
+          </button>
+          <button
             className={`btn-clear ${state.selected === 'year' ? 'active' : ''}`}
             onClick={() => handleChangeTime('year')}
           >
@@ -139,7 +173,8 @@ export function Currency() {
           </button>
           {state.loading && <Loading text="Loading Chart" />}
           {!state.loading && (
-            <HistoryChart
+            // Memoize
+            <MemoizedHistoryChart
               coin={coin}
               data={state.coinData[state.selected]}
               selected={state.selected}
@@ -150,13 +185,24 @@ export function Currency() {
         <div className="coin-social-feed">
           <div className="social-display">
             <div>Social Feed</div>
-            <button onClick={() => handleChangeSocialFeed('twitter')}>
+            <button
+              onClick={() => handleChangeSocialFeed('twitter')}
+              className={`btn-clear ${
+                socialFeed === 'twitter' ? 'active' : ''
+              }`}
+            >
               Twitter
             </button>
-            <button onClick={() => handleChangeSocialFeed('reddit')}>
+            <button
+              onClick={() => handleChangeSocialFeed('reddit')}
+              className={`btn-clear ${socialFeed === 'reddit' ? 'active' : ''}`}
+            >
               Reddit
             </button>
-            <button onClick={() => handleChangeSocialFeed('google')}>
+            <button
+              onClick={() => handleChangeSocialFeed('google')}
+              className={`btn-clear ${socialFeed === 'google' ? 'active' : ''}`}
+            >
               Google News
             </button>
           </div>
@@ -173,8 +219,16 @@ export function Currency() {
               subRedditUrl={state.subRedditUrl}
             />
           )}
+          {state.subRedditFeed && socialFeed === 'google' && <GoogleNews />}
         </div>
       </div>
     </div>
   );
+}
+
+function numberWithCommas(x) {
+  if (x <= 1) {
+    return x;
+  }
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }

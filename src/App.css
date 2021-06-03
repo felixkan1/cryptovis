@@ -139,8 +139,13 @@ nav a {
   display: flex;
   flex-direction: row;
   margin-top: 5rem;
+  justify-content: space-between;
 }
 
+.title .coin-name {
+  display: flex;
+  flex-direction: row;
+}
 .title h1 {
   margin-top: 0;
 }
@@ -154,8 +159,19 @@ nav a {
   flex: 2;
 }
 
+/* Outer */
 .coin-social-feed {
   flex: 1;
+  max-height: 400px;
+  display: block;
+  width: auto;
+  right: auto;
+  bottom: auto;
+  height: 100%;
+}
+
+/* Inner */
+.reddit-feed {
+  overflow-y: scroll;
   height: 400px;
-  overflow: scroll;
 }

@@ -2,10 +2,12 @@
 export const formatData = (coin, time) => {
   const xValues = [];
   const yValues = [];
+  let yMax = Number.NEGATIVE_INFINITY;
 
   time.map((ele) => {
     xValues.push(ele[0]);
     yValues.push(ele[1]);
+    if (ele[1] > yMax) yMax = ele[1];
   });
 
   return {
@@ -19,6 +21,7 @@ export const formatData = (coin, time) => {
         pointRadius: 0,
       },
     ],
+    yMax,
   };
 };
 
@@ -29,6 +32,11 @@ const selectTimeFormat = (selected) => {
       tooltipFormat: 'MMM dd',
     };
   } else if (selected === 'week') {
+    return {
+      unit: 'day',
+      tooltipFormat: 'MMM dd',
+    };
+  } else if (selected === 'month') {
     return {
       unit: 'day',
       tooltipFormat: 'MMM dd',
@@ -45,10 +53,14 @@ const numberWithCommas = (x) => {
   if (x <= 1) {
     return x;
   }
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  let y = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return y;
 };
 
-export const historyOptions = (selected) => {
+export const historyOptions = (selected, yMax) => {
+  const magnitude = -Math.floor(Math.log(yMax) / Math.log(10) + 1) + 3;
+  const roundFactor = Math.pow(10, magnitude);
+
   const timeFormat = selectTimeFormat(selected);
 
   return {
@@ -82,7 +94,10 @@ export const historyOptions = (selected) => {
       y: {
         ticks: {
           callback: function (val, index) {
-            return '$' + numberWithCommas(val);
+            return (
+              '$' +
+              numberWithCommas(Math.round(val * roundFactor) / roundFactor)
+            );
           },
         },
       },

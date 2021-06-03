@@ -12,7 +12,7 @@ export function getHistoriacalData(id, days) {
 
 export function getCoinData(id) {
   return fetch(
-    `https://api.coingecko.com/api/v3/coins/${id}?localization=false&tickers=false&market_data=false&community_data=true&developer_data=false&sparkline=false`
+    `https://api.coingecko.com/api/v3/coins/${id}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=false`
   ).then((data) => data.json());
 }
 
