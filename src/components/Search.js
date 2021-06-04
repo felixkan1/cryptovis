@@ -10,9 +10,6 @@ export function Search() {
   const coins = useSelector((state) => state.coins);
   const coinList = Object.values(coins);
 
-  console.log('coins', coins);
-  console.log('coinlist', coinList);
-
   return (
     <React.Fragment>
       <h1>Crypto-Vis</h1>

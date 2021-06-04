@@ -6,7 +6,7 @@ import { historyOptions, formatData } from '../chartConfigs/chartConfigs';
 export function HistoryChart({ coin, data, selected }) {
   const chartData = formatData(coin, data);
   const yMax = chartData.yMax;
-  console.log(yMax);
+  
   return (
     <div>
       {chartData && (

@@ -20,6 +20,8 @@ function App() {
     dispatch(handleInitialData());
   }, [dispatch]);
 
+
+
   return (
     <Router>
       <LoadingBar showFastActions />

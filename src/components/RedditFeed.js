@@ -9,10 +9,9 @@ export function RedditFeed({ feed, subRedditUrl }) {
   const {
     data: { children },
   } = feed;
-  console.log(feed);
 
   return (
-    <div className="reddit-feed">
+    <div className="feed">
       <h5>
         links from <a href={subRedditUrl}>{path}</a>
       </h5>
@@ -36,3 +35,4 @@ export function RedditFeed({ feed, subRedditUrl }) {
     </div>
   );
 }
+export const MemoizedRedditFeed = React.memo(RedditFeed);

@@ -19,3 +19,7 @@ export function getCoinData(id) {
 export function getRedditFeed(subredditUrl) {
   return fetch(`${subredditUrl}.json`).then((data) => data.json());
 }
+
+export function getGoogleNews(coin) {
+  return fetch(`/googleNews/${coin}`).then((res) => res.json());
+}

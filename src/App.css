@@ -146,6 +146,7 @@ nav a {
   display: flex;
   flex-direction: row;
 }
+
 .title h1 {
   margin-top: 0;
 }
@@ -171,7 +172,7 @@ nav a {
 }
 
 /* Inner */
-.reddit-feed {
+.feed {
   overflow-y: scroll;
   height: 400px;
 }

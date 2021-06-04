@@ -11,6 +11,7 @@ import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import { RedditFeed } from './RedditFeed';
 import { GoogleNews } from './GoogleNews';
+import { getGoogleNews } from '../Utils/api';
 
 function coinReducer(state, action) {
   if (action.type === 'initial data') {
@@ -28,10 +29,17 @@ function coinReducer(state, action) {
       ...state,
       selected: action.selected,
     };
-  } else if (action.type === 'got reddit feed') {
+  } else if (action.type === 'got reddit feed data') {
     return {
       ...state,
       subRedditFeed: action.subRedditFeed,
+      redditLoading: false,
+    };
+  } else if (action.type === 'got google feed data') {
+    return {
+      ...state,
+      googleNewsFeed: action.googleNewsFeed,
+      googleLoading: false,
     };
   } else if (action.type === 'error') {
     return {
@@ -51,8 +59,12 @@ export function Currency() {
     loading: true,
     selected: 'day',
     twitterName: '',
+    twitterLoading: true,
     subRedditUrl: '',
     subRedditFeed: null,
+    redditLoading: true,
+    googleNewsFeed: null,
+    googleLoading: true,
   });
   const [socialFeed, setSocialFeed] = useState('twitter');
   const watchList = useSelector((state) => state.watchList);
@@ -74,7 +86,7 @@ export function Currency() {
           price_change_percentage_24h,
         },
       } = coinData;
-      console.log(coinData);
+
       dispatch({
         type: 'initial data',
         coinData: {
@@ -99,12 +111,21 @@ export function Currency() {
     if (state.subRedditUrl) {
       getRedditFeed(state.subRedditUrl).then((feed) => {
         dispatch({
-          type: 'got reddit feed',
+          type: 'got reddit feed data',
           subRedditFeed: feed,
         });
       });
     }
   }, [state.subRedditUrl]);
+
+  useEffect(() => {
+    getGoogleNews(id).then((feed) => {
+      dispatch({
+        type: 'got google feed data',
+        googleNewsFeed: feed,
+      });
+    });
+  }, []);
 
   const handleChangeTime = (time) => {
     dispatch({
@@ -219,7 +240,9 @@ export function Currency() {
               subRedditUrl={state.subRedditUrl}
             />
           )}
-          {state.subRedditFeed && socialFeed === 'google' && <GoogleNews />}
+          {state.googleNewsFeed && socialFeed === 'google' && (
+            <GoogleNews feed={state.googleNewsFeed} />
+          )}
         </div>
       </div>
     </div>

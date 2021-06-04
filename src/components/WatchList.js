@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Coinlist } from './Coinlist';
 export function WatchList() {
   const watchList = useSelector((state) => state.watchList);
-  console.log(watchList);
+
   return (
     <div>
       <h1>Watch List</h1>
