@@ -20,12 +20,14 @@ export function RedditFeed({ feed, subRedditUrl }) {
           data: { title, permalink, ups, num_comments },
         } = post;
         return (
-          <div key={permalink}>
-            <p>
-              <a href={`//reddit.com${permalink}`}>{title}</a>
+          <div key={permalink} className="reddit-post">
+            <p className="post-title">
+              <a className="post-title" href={`//reddit.com${permalink}`}>
+                {title}
+              </a>
             </p>
             <div>
-              <span>
+              <span className="post-info">
                 {ups} points | {num_comments} comments
               </span>
             </div>

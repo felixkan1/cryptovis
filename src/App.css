@@ -95,6 +95,7 @@ nav a {
   font-size: 20px;
   border: none;
   background-color: white;
+  margin-bottom: 10px;
 }
 
 .star-button:hover,
@@ -135,16 +136,25 @@ nav a {
 
 /* currency */
 
+.coin-price h1 {
+  font-size: 1.7rem;
+}
+
+
 .title {
   display: flex;
   flex-direction: row;
   margin-top: 5rem;
-  justify-content: space-between;
 }
 
 .title .coin-name {
   display: flex;
   flex-direction: row;
+}
+
+.coin-name img {
+  height: 80%;
+  margin-right: 0.8rem;
 }
 
 .title h1 {
@@ -156,23 +166,73 @@ nav a {
   flex-direction: row;
 }
 
-.coin-graph {
-  flex: 2;
+.chart {
+  flex: 2
 }
 
-/* Outer */
-.coin-social-feed {
+.coin-graph {
+  flex: 2;
+  position: relative;
+
+}
+
+
+.coin-info-feed {
   flex: 1;
-  max-height: 400px;
-  display: block;
-  width: auto;
-  right: auto;
-  bottom: auto;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background-color: rgba(95, 158, 160, 0.568);
+  padding: 10px;
   height: 100%;
 }
 
-/* Inner */
-.feed {
-  overflow-y: scroll;
-  height: 400px;
+.coin-stat p {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.404);
+  margin-bottom: 20px;
+}
+
+
+/* Reddit and reddit */
+
+.reddit-post,
+.google-post {
+  margin: 3px;
+  margin-bottom: 20px;
+}
+
+.google-post {
+  border: 1px solid rgb(218, 220, 224);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.google-post h5 {
+  margin: 0;
+}
+
+.post-title {
+  text-decoration: none;
+  color: rgb(45, 35, 189);
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+}
+
+.post-info {
+  font-size: 12px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.row div {
+  flex: 1;
+}
+
+.row .feed {
+  flex: 1;
 }

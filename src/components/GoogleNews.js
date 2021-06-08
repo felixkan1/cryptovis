@@ -6,14 +6,16 @@ export function GoogleNews({ feed }) {
     <div className="feed">
       {feed.map((newsArticle) => {
         return (
-          <div key={newsArticle.link}>
-            <p>
-              <p>
+          <div className="google-post" key={newsArticle.link}>
+            <div>
+              <h5>
                 <i>{newsArticle.source}</i>
-              </p>
-              <a href={newsArticle.link}>{newsArticle.title}</a>
-              <p>{newsArticle.time}</p>
-            </p>
+              </h5>
+              <a className="post-title" href={newsArticle.link}>
+                {newsArticle.title}
+              </a>
+              <p className="post-info">{newsArticle.time}</p>
+            </div>
           </div>
         );
       })}

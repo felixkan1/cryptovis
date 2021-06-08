@@ -29,22 +29,22 @@ const selectTimeFormat = (selected) => {
   if (selected === 'day') {
     return {
       unit: 'hour',
-      tooltipFormat: 'MMM dd',
     };
   } else if (selected === 'week') {
     return {
       unit: 'day',
-      tooltipFormat: 'MMM dd',
     };
   } else if (selected === 'month') {
     return {
       unit: 'day',
-      tooltipFormat: 'MMM dd',
     };
   } else if (selected === 'year') {
     return {
       unit: 'month',
-      tooltipFormat: 'MMM dd',
+    };
+  } else if (selected === 'threeYears') {
+    return {
+      unit: 'month',
     };
   }
 };
@@ -64,6 +64,7 @@ export const historyOptions = (selected, yMax) => {
   const timeFormat = selectTimeFormat(selected);
 
   return {
+    responsive: true,
     plugins: {
       legend: {
         display: false,

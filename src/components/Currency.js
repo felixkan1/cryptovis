@@ -5,41 +5,38 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleToggleWatch } from '../actions/watchList';
 import { MemoizedHistoryChart } from './HistoryChart';
+import { SocialFeed } from './SocialFeed';
+import { SocialFeedTwo } from './SocialFeedTwo';
+import { CoinInfo } from './CoinInfo';
 import { getHistoriacalData, getCoinData, getRedditFeed } from '../Utils/api';
-import Loading from './Loading';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
-import { TwitterTimelineEmbed } from 'react-twitter-embed';
-import { RedditFeed } from './RedditFeed';
-import { GoogleNews } from './GoogleNews';
-import { getGoogleNews } from '../Utils/api';
+import ScaleLoader from 'react-spinners/ScaleLoader';
+import { css } from '@emotion/react';
 
+const override = css`
+  margin: 0 auto;
+  border-color: blue;
+  position: absolute;
+  left: 45%;
+  top: 100%;
+`;
 function coinReducer(state, action) {
   if (action.type === 'initial data') {
     return {
       ...state,
-      coinData: action.coinData,
+      coinPrice: action.coinPrice,
       price: action.price,
+      image: action.image,
       priceChange: action.priceChange,
       loading: action.loading,
       twitterName: action.twitterName,
       subRedditUrl: action.subRedditUrl,
+      coinData: action.coinData,
     };
   } else if (action.type === 'change time') {
     return {
       ...state,
       selected: action.selected,
-    };
-  } else if (action.type === 'got reddit feed data') {
-    return {
-      ...state,
-      subRedditFeed: action.subRedditFeed,
-      redditLoading: false,
-    };
-  } else if (action.type === 'got google feed data') {
-    return {
-      ...state,
-      googleNewsFeed: action.googleNewsFeed,
-      googleLoading: false,
     };
   } else if (action.type === 'error') {
     return {
@@ -54,47 +51,50 @@ export function Currency() {
   const { id } = useParams();
   const coin = id.charAt(0).toUpperCase() + id.slice(1);
   const [state, dispatch] = useReducer(coinReducer, {
-    coinData: {},
+    coinPrice: {},
     price: null,
     loading: true,
     selected: 'day',
     twitterName: '',
-    twitterLoading: true,
     subRedditUrl: '',
-    subRedditFeed: null,
-    redditLoading: true,
-    googleNewsFeed: null,
-    googleLoading: true,
+    coinData: null,
   });
-  const [socialFeed, setSocialFeed] = useState('twitter');
+
   const watchList = useSelector((state) => state.watchList);
   const dispatchRedux = useDispatch();
 
+  //use effect to get coin information
   useEffect(() => {
     Promise.all([
       getHistoriacalData(id, '1'),
       getHistoriacalData(id, '7'),
       getHistoriacalData(id, '30'),
       getHistoriacalData(id, '365'),
+      getHistoriacalData(id, '1095'),
       getCoinData(id),
     ]).then((data) => {
-      const [day, week, month, year, coinData] = data;
+      const [day, week, month, year, threeYears, coinData] = data;
+      console.log(coinData);
       const {
         links,
         market_data: {
           current_price: { usd },
           price_change_percentage_24h,
         },
+        image,
       } = coinData;
 
       dispatch({
         type: 'initial data',
-        coinData: {
+        coinPrice: {
           day: day.prices,
           week: week.prices,
           month: month.prices,
           year: year.prices,
+          threeYears: threeYears.prices,
         },
+        image: image.small,
+        coinData: coinData,
         price: usd,
         priceChange: price_change_percentage_24h,
         loading: false,
@@ -103,26 +103,6 @@ export function Currency() {
             ? 'bitcoin'
             : links.twitter_screen_name,
         subRedditUrl: links.subreddit_url,
-      });
-    });
-  }, []);
-
-  useEffect(() => {
-    if (state.subRedditUrl) {
-      getRedditFeed(state.subRedditUrl).then((feed) => {
-        dispatch({
-          type: 'got reddit feed data',
-          subRedditFeed: feed,
-        });
-      });
-    }
-  }, [state.subRedditUrl]);
-
-  useEffect(() => {
-    getGoogleNews(id).then((feed) => {
-      dispatch({
-        type: 'got google feed data',
-        googleNewsFeed: feed,
       });
     });
   }, []);
@@ -139,14 +119,12 @@ export function Currency() {
     dispatchRedux(handleToggleWatch(id));
   };
 
-  const handleChangeSocialFeed = (id) => {
-    setSocialFeed(id);
-  };
-
   return (
     <div>
       <div className="title">
         <div className="coin-name">
+          {state.image && <img src={state.image} alt="coin" />}
+
           <h1>{coin}</h1>
           <button
             className={`star-button ${watchList.includes(id)}`}
@@ -155,13 +133,13 @@ export function Currency() {
             {watchList.includes(id) ? <AiFillStar /> : <AiOutlineStar />}
           </button>
         </div>
-        <div>
-          <h2>
+        <div className="coin-price">
+          <h1>
             {state.price && `$${numberWithCommas(state.price)}`}&nbsp;&nbsp;
             <span style={{ color: state.priceChange < 0 ? 'red' : 'green' }}>
               {state.priceChange && `${state.priceChange.toFixed(2)}%`}
             </span>
-          </h2>
+          </h1>
         </div>
       </div>
       <div className="coin-info">
@@ -192,59 +170,38 @@ export function Currency() {
           >
             1Y
           </button>
-          {state.loading && <Loading text="Loading Chart" />}
+          <button
+            className={`btn-clear ${
+              state.selected === 'threeYears' ? 'active' : ''
+            }`}
+            onClick={() => handleChangeTime('threeYears')}
+          >
+            3Y
+          </button>
+          <ScaleLoader
+            color={'rgb(95,158,160)'}
+            loading={state.loading}
+            css={override}
+            size={150}
+          />
+
           {!state.loading && (
-            // Memoize
             <MemoizedHistoryChart
               coin={coin}
-              data={state.coinData[state.selected]}
+              data={state.coinPrice[state.selected]}
               selected={state.selected}
             />
           )}
         </div>
-
-        <div className="coin-social-feed">
-          <div className="social-display">
-            <div>Social Feed</div>
-            <button
-              onClick={() => handleChangeSocialFeed('twitter')}
-              className={`btn-clear ${
-                socialFeed === 'twitter' ? 'active' : ''
-              }`}
-            >
-              Twitter
-            </button>
-            <button
-              onClick={() => handleChangeSocialFeed('reddit')}
-              className={`btn-clear ${socialFeed === 'reddit' ? 'active' : ''}`}
-            >
-              Reddit
-            </button>
-            <button
-              onClick={() => handleChangeSocialFeed('google')}
-              className={`btn-clear ${socialFeed === 'google' ? 'active' : ''}`}
-            >
-              Google News
-            </button>
-          </div>
-          {state.twitterName && socialFeed === 'twitter' && (
-            <TwitterTimelineEmbed
-              sourceType="profile"
-              screenName={state.twitterName}
-              options={{ height: 400 }}
-            />
-          )}
-          {state.subRedditFeed && socialFeed === 'reddit' && (
-            <RedditFeed
-              feed={state.subRedditFeed}
-              subRedditUrl={state.subRedditUrl}
-            />
-          )}
-          {state.googleNewsFeed && socialFeed === 'google' && (
-            <GoogleNews feed={state.googleNewsFeed} />
-          )}
+        <div className="coin-info-feed">
+          {state.coinData && <CoinInfo coinData={state.coinData} id={id} />}
         </div>
       </div>
+      <SocialFeedTwo
+        id={id}
+        twitterName={state.twitterName}
+        subRedditUrl={state.subRedditUrl}
+      />
     </div>
   );
 }
