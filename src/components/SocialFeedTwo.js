@@ -12,7 +12,7 @@ const override = css`
   border-color: blue;
   position: absolute;
   left: 45%;
-  top: 100%;
+  top: 50%;
 `;
 
 function socialFeedReducer(state, action) {
@@ -32,31 +32,25 @@ function socialFeedReducer(state, action) {
 }
 
 export function SocialFeedTwo({ id, twitterName, subRedditUrl }) {
-  const [socialFeed, setSocialFeed] = useState('reddit');
   const [state, dispatch] = useReducer(socialFeedReducer, {
     subRedditFeed: null,
     redditLoading: true,
   });
   useEffect(() => {
-    let mounted = true;
+    let cancelRequest = false;
     if (subRedditUrl) {
       getRedditFeed(subRedditUrl).then((feed) => {
-        if (mounted) {
-          dispatch({
-            type: 'got reddit feed data',
-            subRedditFeed: feed,
-          });
-        }
+        if (cancelRequest) return;
+        dispatch({
+          type: 'got reddit feed data',
+          subRedditFeed: feed,
+        });
       });
     }
     return function cleanup() {
-      mounted = false;
+      cancelRequest = true;
     };
   }, [subRedditUrl]);
-
-  const handleChangeSocialFeed = (id) => {
-    setSocialFeed(id);
-  };
 
   return (
     <div className="row">

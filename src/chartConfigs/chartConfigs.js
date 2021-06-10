@@ -16,7 +16,8 @@ export const formatData = (coin, time) => {
       {
         label: `${coin}`,
         data: yValues,
-        backgroundColor: 'rgba(174,305,194,0.5)',
+        borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgb(75, 192, 192)',
         borderWidth: 1,
         pointRadius: 0,
       },
@@ -58,7 +59,7 @@ const numberWithCommas = (x) => {
 };
 
 export const historyOptions = (selected, yMax) => {
-  const magnitude = -Math.floor(Math.log(yMax) / Math.log(10) + 1) + 3;
+  const magnitude = -Math.floor(Math.log(yMax) / Math.log(10) + 1) + 3; //number of zeros
   const roundFactor = Math.pow(10, magnitude);
 
   const timeFormat = selectTimeFormat(selected);
@@ -68,6 +69,11 @@ export const historyOptions = (selected, yMax) => {
     plugins: {
       legend: {
         display: false,
+      },
+      tooltip: {
+        enabled: true,
+        intersect: false,
+        mode: 'nearest',
       },
     },
     lineHeightAnnotation: {

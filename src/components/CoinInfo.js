@@ -23,10 +23,7 @@ export function CoinInfo({ coinData, id }) {
         Market Cap <b>${numberWithCommas(market_cap.usd)}</b>
       </p>
       <p>
-        Circulating Supply{' '}
-        <b>
-          {numberWithCommas(circulating_supply)} {id}
-        </b>
+        Circulating Supply <b>{numberWithCommas(circulating_supply)}</b>
       </p>
       <p>
         Price Change 24h $
@@ -35,7 +32,8 @@ export function CoinInfo({ coinData, id }) {
       <p>
         24h High/24h Low{' '}
         <b>
-          ${numberWithCommas(high_24h.usd)}/ ${numberWithCommas(low_24h.usd)}
+          ${numberWithCommas(high_24h.usd)}/ <br /> $
+          {numberWithCommas(low_24h.usd)}
         </b>
       </p>
     </div>

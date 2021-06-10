@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 import { IconContext } from 'react-icons';
+import { Tooltip } from './Tooltip';
 import { handleToggleWatch } from '../actions/watchList';
 
 export function Coinlist({ id }) {
@@ -27,19 +28,27 @@ export function Coinlist({ id }) {
 
   return (
     <Link to={`/currency/${id}`} className="coin">
-      <div className="coin-info">
+      <div className="coin-summary">
         <div>
-          <button
-            className={`star-button ${watchList.includes(id)}`}
-            onClick={(evt) => handleWatch(evt, id)}
+          <Tooltip
+            text={
+              watchList.includes(id)
+                ? 'Remove from Watch List'
+                : 'Add to Watch List'
+            }
           >
-            {watchList.includes(id) ? <AiFillStar /> : <AiOutlineStar />}
-          </button>
+            <button
+              className={`star-button ${watchList.includes(id)}`}
+              onClick={(evt) => handleWatch(evt, id)}
+            >
+              {watchList.includes(id) ? <AiFillStar /> : <AiOutlineStar />}
+            </button>
+          </Tooltip>
           <span>{market_cap_rank}</span>
           <img src={image} alt="coin" />
           <span className="coin-name">{name}</span>
         </div>
-        <p className="coin-price">${formattedPrice}</p>
+        <span className="coin-price">${formattedPrice}</span>
       </div>
     </Link>
   );

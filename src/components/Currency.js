@@ -1,15 +1,18 @@
 /* eslint-disable */
 import React, { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleToggleWatch } from '../actions/watchList';
 import { MemoizedHistoryChart } from './HistoryChart';
-import { SocialFeed } from './SocialFeed';
+import { getGoogleNews } from '../Utils/api';
 import { SocialFeedTwo } from './SocialFeedTwo';
 import { CoinInfo } from './CoinInfo';
+import { Converter } from './Converter';
+import { MemoizedGoogleNews } from './GoogleNews';
 import { getHistoriacalData, getCoinData, getRedditFeed } from '../Utils/api';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
+import { Tooltip } from './Tooltip';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 import { css } from '@emotion/react';
 
@@ -59,6 +62,9 @@ export function Currency() {
     subRedditUrl: '',
     coinData: null,
   });
+  const [pageState, setPageState] = useState('overview');
+  const [googleFeed, setGoogleFeed] = useState(null);
+  const [googleLoading, setGoogleLoading] = useState(true);
 
   const watchList = useSelector((state) => state.watchList);
   const dispatchRedux = useDispatch();
@@ -74,7 +80,7 @@ export function Currency() {
       getCoinData(id),
     ]).then((data) => {
       const [day, week, month, year, threeYears, coinData] = data;
-      console.log(coinData);
+
       const {
         links,
         market_data: {
@@ -107,6 +113,18 @@ export function Currency() {
     });
   }, []);
 
+  useEffect(() => {
+    let cancelRequest = false;
+    getGoogleNews(id).then((news) => {
+      if (cancelRequest) return;
+      setGoogleFeed(news);
+      setGoogleLoading(false);
+    });
+    return function cleanup() {
+      cancelRequest = true;
+    };
+  }, [id]);
+
   const handleChangeTime = (time) => {
     dispatch({
       type: 'change time',
@@ -119,6 +137,10 @@ export function Currency() {
     dispatchRedux(handleToggleWatch(id));
   };
 
+  const handleChangePageState = (page) => {
+    setPageState(page);
+  };
+
   return (
     <div>
       <div className="title">
@@ -126,12 +148,20 @@ export function Currency() {
           {state.image && <img src={state.image} alt="coin" />}
 
           <h1>{coin}</h1>
-          <button
-            className={`star-button ${watchList.includes(id)}`}
-            onClick={(evt) => handleWatch(evt, id)}
+          <Tooltip
+            text={
+              watchList.includes(id)
+                ? 'Remove from Watch List'
+                : 'Add to Watch List'
+            }
           >
-            {watchList.includes(id) ? <AiFillStar /> : <AiOutlineStar />}
-          </button>
+            <button
+              className={`star-button ${watchList.includes(id)}`}
+              onClick={(evt) => handleWatch(evt, id)}
+            >
+              {watchList.includes(id) ? <AiFillStar /> : <AiOutlineStar />}
+            </button>
+          </Tooltip>
         </div>
         <div className="coin-price">
           <h1>
@@ -142,66 +172,104 @@ export function Currency() {
           </h1>
         </div>
       </div>
-      <div className="coin-info">
-        <div className="coin-graph">
-          <button
-            className={`btn-clear ${state.selected === 'day' ? 'active' : ''}`}
-            onClick={() => handleChangeTime('day')}
-          >
-            1D
-          </button>
-          <button
-            className={`btn-clear ${state.selected === 'week' ? 'active' : ''}`}
-            onClick={() => handleChangeTime('week')}
-          >
-            7D
-          </button>
-          <button
-            className={`btn-clear ${
-              state.selected === 'month' ? 'active' : ''
-            }`}
-            onClick={() => handleChangeTime('month')}
-          >
-            1M
-          </button>
-          <button
-            className={`btn-clear ${state.selected === 'year' ? 'active' : ''}`}
-            onClick={() => handleChangeTime('year')}
-          >
-            1Y
-          </button>
-          <button
-            className={`btn-clear ${
-              state.selected === 'threeYears' ? 'active' : ''
-            }`}
-            onClick={() => handleChangeTime('threeYears')}
-          >
-            3Y
-          </button>
-          <ScaleLoader
-            color={'rgb(95,158,160)'}
-            loading={state.loading}
-            css={override}
-            size={150}
-          />
-
-          {!state.loading && (
-            <MemoizedHistoryChart
-              coin={coin}
-              data={state.coinPrice[state.selected]}
-              selected={state.selected}
-            />
-          )}
-        </div>
-        <div className="coin-info-feed">
-          {state.coinData && <CoinInfo coinData={state.coinData} id={id} />}
-        </div>
+      <div className="coin-nav">
+        <button
+          className={`btn-clear ${pageState === 'overview' ? 'active' : ''}`}
+          onClick={() => handleChangePageState('overview')}
+        >
+          Overview
+        </button>
+        <button
+          className={`btn-clear ${pageState === 'social' ? 'active' : ''}`}
+          onClick={() => handleChangePageState('social')}
+        >
+          Social
+        </button>
+        <button
+          className={`btn-clear ${pageState === 'news' ? 'active' : ''}`}
+          onClick={() => handleChangePageState('news')}
+        >
+          News
+        </button>
       </div>
-      <SocialFeedTwo
-        id={id}
-        twitterName={state.twitterName}
-        subRedditUrl={state.subRedditUrl}
-      />
+      <div className="coin-info">
+        {pageState === 'overview' && (
+          <div className="coin-graph">
+            <button
+              className={`btn-clear ${
+                state.selected === 'day' ? 'active' : ''
+              }`}
+              onClick={() => handleChangeTime('day')}
+            >
+              1D
+            </button>
+            <button
+              className={`btn-clear ${
+                state.selected === 'week' ? 'active' : ''
+              }`}
+              onClick={() => handleChangeTime('week')}
+            >
+              7D
+            </button>
+            <button
+              className={`btn-clear ${
+                state.selected === 'month' ? 'active' : ''
+              }`}
+              onClick={() => handleChangeTime('month')}
+            >
+              1M
+            </button>
+            <button
+              className={`btn-clear ${
+                state.selected === 'year' ? 'active' : ''
+              }`}
+              onClick={() => handleChangeTime('year')}
+            >
+              1Y
+            </button>
+            <button
+              className={`btn-clear ${
+                state.selected === 'threeYears' ? 'active' : ''
+              }`}
+              onClick={() => handleChangeTime('threeYears')}
+            >
+              3Y
+            </button>
+            <ScaleLoader
+              color={'rgb(95,158,160)'}
+              loading={state.loading}
+              css={override}
+              size={150}
+            />
+
+            {!state.loading && (
+              <MemoizedHistoryChart
+                coin={coin}
+                data={state.coinPrice[state.selected]}
+                selected={state.selected}
+              />
+            )}
+          </div>
+        )}
+        {pageState === 'overview' && (
+          <div className="coin-info-feed">
+            {state.coinData && <CoinInfo coinData={state.coinData} id={id} />}
+            <Converter price={state.price} id={id} />
+          </div>
+        )}
+
+        {pageState === 'social' && (
+          <SocialFeedTwo
+            id={id}
+            twitterName={state.twitterName}
+            subRedditUrl={state.subRedditUrl}
+          />
+        )}
+
+        {pageState === 'news' && (
+          <MemoizedGoogleNews googleFeed={googleFeed} loading={googleLoading} />
+        )}
+      </div>
     </div>
   );
 }
