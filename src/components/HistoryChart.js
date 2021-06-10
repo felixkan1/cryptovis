@@ -13,8 +13,8 @@ export function HistoryChart({ coin, data, selected }) {
         <Line
           data={chartData}
           options={historyOptions(selected, yMax)}
-          height={400}
-          width={600}
+          height={350}
+          width={425}
         />
       )}
     </div>

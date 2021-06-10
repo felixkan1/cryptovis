@@ -128,6 +128,10 @@
     color: gold;
   }
 
+  .cur {
+    top: 0;
+  }
+
 
 
   .btn-clear {
@@ -185,6 +189,7 @@
     display: flex;
     flex-direction: row;
     margin-top: 5rem;
+
   }
 
   .title .coin-name {
@@ -330,12 +335,10 @@
 }
 
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
   * {
     box-sizing: border-box;
   }
-
-
 
   .container {
     max-width: 80%;
@@ -461,6 +464,10 @@
     color: gold;
   }
 
+  .cur {
+    margin-bottom: 25px;
+  }
+
   .btn-clear {
     border: 1px solid rgb(239, 239, 239);
     color: black;
@@ -496,6 +503,13 @@
     margin-left: 50px;
     display: inline-flex;
     align-items: center;
+    margin: 0 15px;
+  }
+
+  .coin-price h1 {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.3rem;
   }
 
   .coin img {
@@ -506,15 +520,13 @@
 
   /* currency */
 
-  .coin-price h1 {
-    font-size: 1.7rem;
-  }
 
 
   .title {
     display: flex;
     flex-direction: row;
     margin-top: 5rem;
+    justify-content: space-between;
   }
 
   .title .coin-name {
@@ -525,6 +537,12 @@
   .coin-name img {
     height: 80%;
     margin-right: 0.8rem;
+  }
+
+  .coin-name h1 {
+    font-size: 1.5rem;
+    line-height: 50px;
+    height: 50px;
   }
 
   .title h1 {
@@ -541,13 +559,13 @@
     margin-bottom: 2rem;
     border-top: 1px solid rgba(128, 128, 128, 0.418);
     border-bottom: 1px solid rgba(128, 128, 128, 0.418);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 
   .coin-nav button {
-    margin-right: 2rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-
+    margin: 1.5rem 0;
   }
 
   .chart {
@@ -564,7 +582,354 @@
   .coin-info-feed {
     flex: 1;
     height: 80%;
+    width: 100%;
+    margin-bottom: 50px;
+  }
+
+  .coin-stat {
+    border-radius: 5px;
+    background-color: rgba(95, 158, 160, 0.568);
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .coin-stat p {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.404);
+    margin-bottom: 20px;
+  }
+
+  .converter {
+    border-radius: 5px;
+    background-color: rgba(95, 158, 160, 0.568);
+    padding: 30px;
+  }
+
+
+  .convert-currency {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  .convert-currency input {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+  }
+
+  .converter input {
+    font-size: 1.5rem;
+  }
+
+
+  .convert-currency input:focus {
+    outline: none;
+  }
+
+  /* Reddit and reddit */
+
+  .feed {
+    height: 400px;
+    overflow: auto;
+  }
+
+  .reddit-post,
+  .google-post {
+    margin: 3px;
+    margin-bottom: 20px;
+  }
+
+  .google-post {
+    border: 1px solid rgb(218, 220, 224);
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  .google-post h5 {
+    margin: 0;
+  }
+
+  .post-title {
+    text-decoration: none;
+    color: rgb(45, 35, 189);
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+  }
+
+  .post-info {
+    font-size: 12px;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .row div {
+    flex: 1;
+  }
+
+  .row .feed {
+    flex: 1;
+  }
+}
+
+@media only screen and (max-width: 812px) {
+  * {
+    box-sizing: border-box;
+  }
+
+  .container {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+
+  h1 {
+    text-align: center;
+    margin-top: 5rem;
+  }
+
+  h3 {
+    text-align: center;
+  }
+
+  /* Nav */
+
+  nav {
+    margin-top: 2rem;
+  }
+
+  nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    transition: 0.5s all ease;
+  }
+
+  nav a:hover {
+    color: cadetblue;
+
+  }
+
+  /* Search Bar */
+  .search-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-bar {
     width: 80%;
+    margin: 0 auto;
+    height: 100px;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-bar img {
+    width: 30px;
+    object-fit: contain;
+    margin: 0;
+    margin-left: 10px;
+  }
+
+  .search-bar input {
+    width: 80%;
+    height: 80%;
+    font-size: 60px;
+    margin: 0;
+    margin-left: 15px;
+    border: none;
+    font-size: 3rem;
+  }
+
+  .search-bar input:focus {
+    outline: none;
+  }
+
+  /* Coin list */
+
+  .coin-list {
+    margin: 0;
+    padding: 0;
+  }
+
+  .coin {
+    display: flex;
+    width: 80%;
+    padding: 10px;
+    margin: 25px auto;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 1px solid #dad7d7;
+    text-decoration: none;
+    color: black;
+  }
+
+  .coin-summary {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+
+  .coin-summary div {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .coin-summary div span {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 15px;
+    font-size: 0.8rem;
+  }
+
+  .star-button {
+    padding: 0 3px;
+    color: inherit;
+    cursor: pointer;
+    font-size: 20px;
+    border: none;
+    background-color: white;
+    margin-bottom: 0px;
+    position: relative;
+    top: 2.5px;
+  }
+
+  .star-button:hover,
+  .star-button.true {
+    color: gold;
+  }
+
+  .cur {
+    margin-bottom: 25px;
+  }
+
+  .btn-clear {
+    border: 1px solid rgb(239, 239, 239);
+    color: black;
+    border-radius: 4px;
+    background: transparent;
+    padding: 5px 10px;
+    margin-left: 20px;
+    font-size: inherit;
+    cursor: pointer;
+    transition: 0.5s all ease;
+  }
+
+  .btn-clear:hover {
+    background-color: cadetblue;
+  }
+
+  .btn-clear.active {
+    background-color: cadetblue;
+  }
+
+  .load-more {
+    margin: auto;
+    margin-bottom: 6rem;
+    width: 80%;
+  }
+
+  .load-more:disabled {
+    cursor: not-allowed;
+  }
+
+  .coin-price {
+    margin: 0;
+    margin-left: 50px;
+    display: inline-flex;
+    align-items: center;
+    margin: 0 15px;
+    font-size: 0.9rem;
+  }
+
+  .coin-price h1 {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.3rem;
+  }
+
+  .coin img {
+    width: 50px;
+    height: auto;
+    margin: 0;
+  }
+
+  /* currency */
+
+
+
+  .title {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5rem;
+    justify-content: space-between;
+  }
+
+  .title .coin-name {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .coin-name img {
+    height: 80%;
+    margin-right: 0.8rem;
+  }
+
+  .coin-name h1 {
+    font-size: 1.5rem;
+    line-height: 50px;
+    height: 50px;
+  }
+
+  .title h1 {
+    margin-top: 0;
+  }
+
+  .coin-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .coin-nav {
+    margin-bottom: 2rem;
+    border-top: 1px solid rgba(128, 128, 128, 0.418);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.418);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .coin-nav button {
+    margin: 1.5rem 0;
+  }
+
+  .chart {
+    flex: 2
+  }
+
+  .coin-graph {
+    flex: 2;
+    position: relative;
+
+  }
+
+
+  .coin-info-feed {
+    flex: 1;
+    height: 80%;
+    width: 100%;
     margin-bottom: 50px;
   }
 

@@ -156,7 +156,7 @@ export function Currency() {
             }
           >
             <button
-              className={`star-button ${watchList.includes(id)}`}
+              className={`star-button cur ${watchList.includes(id)}`}
               onClick={(evt) => handleWatch(evt, id)}
             >
               {watchList.includes(id) ? <AiFillStar /> : <AiOutlineStar />}
