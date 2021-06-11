@@ -10,12 +10,7 @@ export function HistoryChart({ coin, data, selected }) {
   return (
     <div className="chart">
       {chartData && (
-        <Line
-          data={chartData}
-          options={historyOptions(selected, yMax)}
-          height={350}
-          width={425}
-        />
+        <Line data={chartData} options={historyOptions(selected, yMax)} />
       )}
     </div>
   );

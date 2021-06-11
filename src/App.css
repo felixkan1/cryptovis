@@ -228,7 +228,8 @@
   }
 
   .chart {
-    flex: 2
+    flex: 2;
+    height: 400px
   }
 
   .coin-graph {
@@ -569,13 +570,15 @@
   }
 
   .chart {
-    flex: 2
+    flex: 2;
+    height: 400px;
+    width: 100%;
   }
 
   .coin-graph {
     flex: 2;
     position: relative;
-
+    width: 100%;
   }
 
 
@@ -916,13 +919,15 @@
   }
 
   .chart {
-    flex: 2
+    flex: 2;
+    height: 400px;
+    width: 100%;
   }
 
   .coin-graph {
     flex: 2;
     position: relative;
-
+    width: 100%;
   }
 
 
