@@ -1,8 +1,8 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
+import React, { useState, useContext } from 'react';
+import ThemeContext from '../context/theme';
 import { useSelector } from 'react-redux';
 import { Coinlist } from './Coinlist';
-
 
 // //incorporate typing suggestion: https://webdevtrick.com/javascript-typing-suggestions/
 
@@ -11,6 +11,7 @@ export function Search() {
   const [visibleCoins, setVisibleCoins] = useState(15);
   const coins = useSelector((state) => state.coins);
   const coinList = Object.values(coins);
+  const theme = useContext(ThemeContext);
 
   const handleSearchTermChange = (evt) => {
     setSearchTerm(evt.target.value);
@@ -30,7 +31,7 @@ export function Search() {
   };
 
   return (
-    <React.Fragment>
+    <div className={theme}>
       <h1>Crypto-Vis</h1>
       <h3>Search for a cryptocurrency</h3>
       <div className="search-container">
@@ -47,6 +48,18 @@ export function Search() {
             placeholder="ie. Bitcoin"
             autoComplete="off"
           />
+        </div>
+
+        <div className="coin-summary-title">
+          <div className="rank-and-name">
+            <div>
+              <b>Rank</b>
+            </div>
+            <div>
+              <b>Coin Name</b>
+            </div>
+          </div>
+          <b>Price</b>
         </div>
 
         <ul className="coin-list">
@@ -68,6 +81,6 @@ export function Search() {
           Load more
         </button>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
