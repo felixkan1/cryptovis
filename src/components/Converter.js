@@ -1,9 +1,11 @@
 /* eslint-disable */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import ThemeContext from '../context/theme';
 
 export function Converter({ price, id }) {
   const [coins, setCoins] = useState('');
   const [usd, setUsd] = useState('');
+  const theme = useContext(ThemeContext);
 
   const handleChange = (evt) => {
     if (evt.target.id === 'coin') {
@@ -21,7 +23,7 @@ export function Converter({ price, id }) {
     }
   };
   return (
-    <div className="converter">
+    <div className={`converter-${theme}`}>
       <div className="convert-currency">
         {id.charAt(0).toUpperCase() + id.slice(1)}
         <input

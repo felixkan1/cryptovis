@@ -28,7 +28,7 @@ export function Nav({ toggleTheme }) {
         }}
         checked={theme === 'dark'}
         onChange={toggleTheme}
-        size={50}
+        size={40}
       />
     </div>
   );

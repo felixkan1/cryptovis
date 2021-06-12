@@ -21,6 +21,8 @@ export function Coinlist({ id }) {
   } = coinList[id];
   const formattedPrice = numberWithCommas(current_price);
 
+  console.log(image);
+
   const handleWatch = (evt, id) => {
     evt.preventDefault();
     dispatch(handleToggleWatch(id));

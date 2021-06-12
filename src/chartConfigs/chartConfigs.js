@@ -16,8 +16,8 @@ export const formatData = (coin, time) => {
       {
         label: `${coin}`,
         data: yValues,
-        borderColor: 'rgb(75, 192, 192)',
-        backgroundColor: 'rgb(75, 192, 192)',
+        borderColor: 'rgb(65, 182, 104)',
+        backgroundColor: 'rgb(65, 182, 104)',
         borderWidth: 1,
         pointRadius: 0,
       },

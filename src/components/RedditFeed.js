@@ -11,7 +11,7 @@ export function RedditFeed({ feed, subRedditUrl }) {
   } = feed;
 
   return (
-    <div className="feed">
+    <div className="feed reddit">
       <h5>
         links from <a href={subRedditUrl}>{path}</a>
       </h5>

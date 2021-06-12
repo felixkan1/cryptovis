@@ -15,7 +15,7 @@ export function GoogleNews({ googleFeed, loading }) {
   return (
     <div className="feed">
       <ScaleLoader
-        color={'rgb(95,158,160)'}
+        color={'rgb(65, 182, 104)'}
         loading={loading}
         css={override}
         size={150}

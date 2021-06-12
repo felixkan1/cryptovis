@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import ThemeContext from '../context/theme';
 import { useSelector } from 'react-redux';
 import { Coinlist } from './Coinlist';
+import ScrollToTop from 'react-scroll-to-top';
 
 // //incorporate typing suggestion: https://webdevtrick.com/javascript-typing-suggestions/
 
@@ -35,7 +36,7 @@ export function Search() {
       <h1>Crypto-Vis</h1>
       <h3>Search for a cryptocurrency</h3>
       <div className="search-container">
-        <div className="search-bar">
+        <div className={`search-bar-${theme} search-bar`}>
           <img
             src="https://img.icons8.com/android/24/000000/search.png"
             alt=""
@@ -45,7 +46,7 @@ export function Search() {
             value={searchTerm}
             onChange={handleSearchTermChange}
             id="searchTerm"
-            placeholder="ie. Bitcoin"
+            placeholder="Search"
             autoComplete="off"
           />
         </div>
@@ -81,6 +82,7 @@ export function Search() {
           Load more
         </button>
       </div>
+      <ScrollToTop smooth />
     </div>
   );
 }

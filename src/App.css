@@ -1,3 +1,7 @@
+:root {
+  --main-background-color: rgb(65, 182, 104);
+}
+
 #root {
   min-height: 100vh;
 }
@@ -9,9 +13,14 @@
 }
 
 .dark {
-  background-color: rgb(0, 0, 0);
-  color: white;
+  background-color: rgb(24, 24, 26);
+  color: rgb(255, 255, 255);
   transition: 0.5s all ease;
+}
+
+.content {
+  width: 90%;
+  margin: 0 auto;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -54,7 +63,7 @@
   }
 
   nav a:hover {
-    color: cadetblue;
+    color: var(--main-background-color);
   }
 
   /* Search Bar */
@@ -64,7 +73,7 @@
     justify-content: center;
   }
 
-  .search-bar {
+  .search-bar-light {
     width: 80%;
     margin: 0 auto;
     height: 100px;
@@ -72,6 +81,16 @@
     border-radius: 5px;
     display: flex;
     align-items: center;
+  }
+
+  .search-bar-dark {
+    width: 80%;
+    margin: 0 auto;
+    height: 100px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgb(218, 215, 215);
   }
 
   .search-bar img {
@@ -113,6 +132,11 @@
     border: 1px solid #dad7d7;
     text-decoration: none;
     color: inherit;
+    transition: 0.5s all ease;
+  }
+
+  .coin:hover {
+    background-color: var(--main-background-color);
   }
 
   .coin-summary {
@@ -188,17 +212,18 @@
   }
 
   .btn-clear:hover {
-    background-color: cadetblue;
+    background-color: var(--main-background-color);
   }
 
   .btn-clear.active {
-    background-color: cadetblue;
+    background-color: var(--main-background-color);
   }
 
   .load-more {
     margin: auto;
     margin-bottom: 6rem;
     width: 80%;
+    border: 1px solid rgb(218, 215, 215);
   }
 
   .load-more:disabled {
@@ -254,7 +279,7 @@
   }
 
   .coin-nav {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     border-top: 1px solid rgba(128, 128, 128, 0.418);
     border-bottom: 1px solid rgba(128, 128, 128, 0.418);
   }
@@ -274,6 +299,11 @@
     flex: 2;
     position: relative;
     margin: 0 15px;
+    height: 450px;
+  }
+
+  .day-buttons {
+    margin-bottom: 1rem;
   }
 
   .coin-info-feed {
@@ -282,28 +312,56 @@
     margin: 0 15px;
   }
 
-  .coin-stat {
+  .coin-stat-light {
     border-radius: 5px;
-    background-color: rgba(95, 158, 160, 0.568);
+    background-color: var(--main-background-color);
     padding: 10px;
     margin-bottom: 20px;
+    min-height: 330px;
   }
 
-  .coin-stat p {
+  .coin-stat-light p {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid rgba(128, 128, 128, 0.404);
     margin-bottom: 20px;
   }
 
-  .coin-stat p b {
+  .coin-stat-light p b {
     font-size: 0.85rem;
   }
 
-  .converter {
+  .converter-light {
     border-radius: 5px;
-    background-color: rgba(95, 158, 160, 0.568);
+    background-color: var(--main-background-color);
     padding: 15px;
+  }
+
+  .coin-stat-dark {
+    border: 1px solid grey;
+    border-radius: 25px;
+    padding: 10px;
+    margin-bottom: 20px;
+    min-height: 330px;
+  }
+
+  .coin-stat-dark p {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.404);
+    margin-bottom: 20px;
+  }
+
+  .coin-stat-dark p b {
+    font-size: 0.85rem;
+  }
+
+  .converter-dark {
+    border-radius: 5px;
+    border: 1px solid grey;
+    border-radius: 25px;
+    padding: 15px;
+    caret-color: white;
   }
 
   .convert-currency {
@@ -312,6 +370,7 @@
     justify-content: space-between;
     font-size: 1.5rem;
     padding: 0;
+    color: inherit;
   }
 
   .convert-currency input {
@@ -319,17 +378,35 @@
     border: none;
     width: 100%;
     font-size: 1.5rem;
+    color: inherit;
   }
 
   .convert-currency input:focus {
     outline: none;
   }
 
-  /* Reddit and reddit */
+  /* Social */
 
   .feed {
     height: 400px;
     overflow: auto;
+    width: 45%;
+  }
+
+  .social {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  .twitter {
+    min-width: 30%;
+    max-width: 30%;
+  }
+
+  .reddit {
+    min-width: 30%;
+    max-width: 30%;
   }
 
   .reddit-post,
@@ -350,7 +427,7 @@
 
   .post-title {
     text-decoration: none;
-    color: rgb(45, 35, 189);
+    color: inherit;
     margin: 0;
     padding: 0;
     font-size: 18px;
@@ -414,7 +491,7 @@
   }
 
   nav a:hover {
-    color: cadetblue;
+    color: var(--main-background-color);
   }
 
   /* Search Bar */
@@ -423,11 +500,21 @@
     flex-direction: column;
   }
 
-  .search-bar {
+  .search-bar-light {
     width: 80%;
     margin: 0 auto;
     height: 100px;
     border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-bar-dark {
+    border: 1px solid rgb(218, 215, 215);
+    width: 80%;
+    margin: 0 auto;
+    height: 100px;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -447,6 +534,8 @@
     margin: 0;
     margin-left: 15px;
     border: none;
+    background-color: inherit;
+    color: inherit;
   }
 
   .search-bar input:focus {
@@ -469,7 +558,12 @@
     cursor: pointer;
     border: 1px solid #dad7d7;
     text-decoration: none;
-    color: black;
+    color: inherit;
+    transition: 0.5s all ease;
+  }
+
+  .coin:hover {
+    background-color: var(--main-background-color);
   }
 
   .coin-summary {
@@ -520,7 +614,7 @@
     background-color: inherit;
     margin-bottom: 0px;
     position: relative;
-    top: 2.5px;
+    top: 9.5px;
   }
 
   .star-button:hover,
@@ -545,17 +639,18 @@
   }
 
   .btn-clear:hover {
-    background-color: cadetblue;
+    background-color: var(--main-background-color);
   }
 
   .btn-clear.active {
-    background-color: cadetblue;
+    background-color: var(--main-background-color);
   }
 
   .load-more {
     margin: auto;
     margin-bottom: 6rem;
     width: 80%;
+    border: 1px solid rgb(218, 215, 215);
   }
 
   .load-more:disabled {
@@ -609,6 +704,7 @@
 
   .title h1 {
     margin-top: 0;
+    font-size: 1rem;
   }
 
   .coin-info {
@@ -618,7 +714,7 @@
   }
 
   .coin-nav {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     border-top: 1px solid rgba(128, 128, 128, 0.418);
     border-bottom: 1px solid rgba(128, 128, 128, 0.418);
     display: flex;
@@ -640,6 +736,11 @@
     flex: 2;
     position: relative;
     width: 100%;
+    min-height: 450px;
+  }
+
+  .day-buttons {
+    margin-bottom: 1rem;
   }
 
   .coin-info-feed {
@@ -649,23 +750,51 @@
     margin-bottom: 50px;
   }
 
-  .coin-stat {
+  .coin-stat-light {
     border-radius: 5px;
-    background-color: rgba(95, 158, 160, 0.568);
+    background-color: var(--main-background-color);
     padding: 10px;
     margin-bottom: 20px;
   }
 
-  .coin-stat p {
+  .coin-stat-light p {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid rgba(128, 128, 128, 0.404);
     margin-bottom: 20px;
   }
 
-  .converter {
+  .coin-stat-dark {
     border-radius: 5px;
-    background-color: rgba(95, 158, 160, 0.568);
+    border: 1px solid grey;
+    border-radius: 25px;
+    padding: 10px;
+    margin-bottom: 20px;
+    min-height: 330px;
+  }
+
+  .coin-stat-dark p {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.404);
+    margin-bottom: 20px;
+  }
+
+  .coin-stat-dark p b {
+    font-size: 0.85rem;
+  }
+
+  .converter-dark {
+    border-radius: 5px;
+    border: 1px solid grey;
+    border-radius: 25px;
+    padding: 15px;
+    caret-color: white;
+  }
+
+  .converter-light {
+    border-radius: 5px;
+    background-color: var(--main-background-color);
     padding: 30px;
   }
 
@@ -675,15 +804,14 @@
     justify-content: space-between;
     margin-bottom: 20px;
     font-size: 1.5rem;
+    color: inherit;
   }
 
   .convert-currency input {
     background-color: transparent;
     border: none;
     width: 100%;
-  }
-
-  .converter input {
+    color: inherit;
     font-size: 1.5rem;
   }
 
@@ -691,11 +819,28 @@
     outline: none;
   }
 
-  /* Reddit and reddit */
+  /* social */
 
   .feed {
     height: 400px;
     overflow: auto;
+    width: 80%;
+  }
+
+  .social {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  .twitter {
+    min-width: 40%;
+    max-width: 40%;
+  }
+
+  .reddit {
+    min-width: 40%;
+    max-width: 40%;
   }
 
   .reddit-post,
@@ -716,7 +861,7 @@
 
   .post-title {
     text-decoration: none;
-    color: rgb(45, 35, 189);
+    color: inherit;
     margin: 0;
     padding: 0;
     font-size: 18px;
@@ -774,13 +919,13 @@
   nav a {
     margin-left: 20px;
     text-decoration: none;
-    color: black;
+    color: inherit;
     font-weight: 600;
     transition: 0.5s all ease;
   }
 
   nav a:hover {
-    color: cadetblue;
+    color: var(--main-background-color);
   }
 
   /* Search Bar */
@@ -789,7 +934,7 @@
     flex-direction: column;
   }
 
-  .search-bar {
+  .search-bar-light {
     width: 80%;
     margin: 0 auto;
     height: 100px;
@@ -797,6 +942,17 @@
     border-radius: 5px;
     display: flex;
     align-items: center;
+  }
+
+  .search-bar-dark {
+    width: 80%;
+    margin: 0 auto;
+    height: 100px;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgb(218, 215, 215);
   }
 
   .search-bar img {
@@ -812,8 +968,10 @@
     font-size: 60px;
     margin: 0;
     margin-left: 15px;
-    border: none;
     font-size: 3rem;
+    background-color: inherit;
+    color: inherit;
+    border: none;
   }
 
   .search-bar input:focus {
@@ -836,7 +994,12 @@
     cursor: pointer;
     border: 1px solid #dad7d7;
     text-decoration: none;
-    color: black;
+    color: inherit;
+    transition: 0.5s all ease;
+  }
+
+  .coin:hover {
+    background-color: var(--main-background-color);
   }
 
   .coin-summary {
@@ -888,7 +1051,7 @@
     background-color: inherit;
     margin-bottom: 0px;
     position: relative;
-    top: 2.5px;
+    top: 9.5px;
   }
 
   .star-button:hover,
@@ -913,17 +1076,18 @@
   }
 
   .btn-clear:hover {
-    background-color: cadetblue;
+    background-color: var(--main-background-color);
   }
 
   .btn-clear.active {
-    background-color: cadetblue;
+    background-color: var(--main-background-color);
   }
 
   .load-more {
     margin: auto;
     margin-bottom: 6rem;
     width: 80%;
+    border: 1px solid rgb(218, 215, 215);
   }
 
   .load-more:disabled {
@@ -946,7 +1110,8 @@
   }
 
   .coin img {
-    width: 50px;
+    max-width: 50px;
+    max-height: 50px;
     height: auto;
     margin: 0;
   }
@@ -978,6 +1143,7 @@
 
   .title h1 {
     margin-top: 0;
+    font-size: 1rem;
   }
 
   .coin-info {
@@ -987,7 +1153,7 @@
   }
 
   .coin-nav {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     border-top: 1px solid rgba(128, 128, 128, 0.418);
     border-bottom: 1px solid rgba(128, 128, 128, 0.418);
     display: flex;
@@ -1009,6 +1175,11 @@
     flex: 2;
     position: relative;
     width: 100%;
+    min-height: 450px;
+  }
+
+  .day-buttons {
+    margin-bottom: 1rem;
   }
 
   .coin-info-feed {
@@ -1018,23 +1189,51 @@
     margin-bottom: 50px;
   }
 
-  .coin-stat {
+  .coin-stat-light {
     border-radius: 5px;
-    background-color: rgba(95, 158, 160, 0.568);
+    background-color: var(--main-background-color);
     padding: 10px;
     margin-bottom: 20px;
   }
 
-  .coin-stat p {
+  .coin-stat-light p {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid rgba(128, 128, 128, 0.404);
     margin-bottom: 20px;
   }
 
-  .converter {
+  .coin-stat-dark {
     border-radius: 5px;
-    background-color: rgba(95, 158, 160, 0.568);
+    border: 1px solid grey;
+    border-radius: 25px;
+    padding: 10px;
+    margin-bottom: 20px;
+    min-height: 330px;
+  }
+
+  .coin-stat-dark p {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.404);
+    margin-bottom: 20px;
+  }
+
+  .coin-stat-dark p b {
+    font-size: 0.85rem;
+  }
+
+  .converter-dark {
+    border-radius: 5px;
+    padding: 15px;
+    border: 1px solid grey;
+    border-radius: 25px;
+    caret-color: white;
+  }
+
+  .converter-light {
+    border-radius: 5px;
+    background-color: var(--main-background-color);
     padding: 30px;
   }
 
@@ -1044,15 +1243,14 @@
     justify-content: space-between;
     margin-bottom: 20px;
     font-size: 1.5rem;
+    color: inherit;
   }
 
   .convert-currency input {
     background-color: transparent;
     border: none;
     width: 100%;
-  }
-
-  .converter input {
+    color: inherit;
     font-size: 1.5rem;
   }
 
@@ -1060,11 +1258,30 @@
     outline: none;
   }
 
-  /* Reddit and reddit */
+  /* social */
 
   .feed {
     height: 400px;
     overflow: auto;
+  }
+
+  .social {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .twitter {
+    min-width: 80%;
+    max-width: 80%;
+  }
+
+  .reddit {
+    min-width: 80%;
+    max-width: 80%;
+    max-height: 400px;
+    overflow-y: auto;
   }
 
   .reddit-post,
@@ -1085,7 +1302,7 @@
 
   .post-title {
     text-decoration: none;
-    color: rgb(45, 35, 189);
+    color: inherit;
     margin: 0;
     padding: 0;
     font-size: 18px;
@@ -1093,11 +1310,6 @@
 
   .post-info {
     font-size: 12px;
-  }
-
-  .row {
-    display: flex;
-    flex-direction: row;
   }
 
   .row div {

@@ -16,13 +16,14 @@ import { Tooltip } from './Tooltip';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 import { css } from '@emotion/react';
 
-const override = css`
+const overrideChart = css`
   margin: 0 auto;
   border-color: blue;
   position: absolute;
   left: 45%;
-  top: 100%;
+  top: 35%;
 `;
+
 function coinReducer(state, action) {
   if (action.type === 'initial data') {
     return {
@@ -195,50 +196,52 @@ export function Currency() {
       <div className="coin-info">
         {pageState === 'overview' && (
           <div className="coin-graph">
-            <button
-              className={`btn-clear ${
-                state.selected === 'day' ? 'active' : ''
-              }`}
-              onClick={() => handleChangeTime('day')}
-            >
-              1D
-            </button>
-            <button
-              className={`btn-clear ${
-                state.selected === 'week' ? 'active' : ''
-              }`}
-              onClick={() => handleChangeTime('week')}
-            >
-              7D
-            </button>
-            <button
-              className={`btn-clear ${
-                state.selected === 'month' ? 'active' : ''
-              }`}
-              onClick={() => handleChangeTime('month')}
-            >
-              1M
-            </button>
-            <button
-              className={`btn-clear ${
-                state.selected === 'year' ? 'active' : ''
-              }`}
-              onClick={() => handleChangeTime('year')}
-            >
-              1Y
-            </button>
-            <button
-              className={`btn-clear ${
-                state.selected === 'threeYears' ? 'active' : ''
-              }`}
-              onClick={() => handleChangeTime('threeYears')}
-            >
-              3Y
-            </button>
+            <div className="day-buttons">
+              <button
+                className={`btn-clear ${
+                  state.selected === 'day' ? 'active' : ''
+                }`}
+                onClick={() => handleChangeTime('day')}
+              >
+                1D
+              </button>
+              <button
+                className={`btn-clear ${
+                  state.selected === 'week' ? 'active' : ''
+                }`}
+                onClick={() => handleChangeTime('week')}
+              >
+                7D
+              </button>
+              <button
+                className={`btn-clear ${
+                  state.selected === 'month' ? 'active' : ''
+                }`}
+                onClick={() => handleChangeTime('month')}
+              >
+                1M
+              </button>
+              <button
+                className={`btn-clear ${
+                  state.selected === 'year' ? 'active' : ''
+                }`}
+                onClick={() => handleChangeTime('year')}
+              >
+                1Y
+              </button>
+              <button
+                className={`btn-clear ${
+                  state.selected === 'threeYears' ? 'active' : ''
+                }`}
+                onClick={() => handleChangeTime('threeYears')}
+              >
+                3Y
+              </button>
+            </div>
             <ScaleLoader
-              color={'rgb(95,158,160)'}
+              color={'rgb(65, 182, 104)'}
               loading={state.loading}
-              css={override}
+              css={overrideChart}
               size={150}
             />
 
@@ -253,7 +256,7 @@ export function Currency() {
         )}
         {pageState === 'overview' && (
           <div className="coin-info-feed">
-            {state.coinData && <CoinInfo coinData={state.coinData} id={id} />}
+            <CoinInfo coinData={state.coinData} loading={state.lading} />
             <Converter price={state.price} id={id} />
           </div>
         )}

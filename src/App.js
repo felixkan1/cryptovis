@@ -14,7 +14,7 @@ import { About } from './components/About';
 import { WatchList } from './components/WatchList';
 
 function App() {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.coins === null);
 
@@ -33,7 +33,7 @@ function App() {
         <div className={`container ${theme}`}>
           <Nav toggleTheme={toggleTheme} />
           {loading === true ? null : (
-            <div>
+            <div className="content">
               <Route path="/" exact>
                 <Search />
               </Route>

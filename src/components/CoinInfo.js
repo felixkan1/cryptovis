@@ -1,7 +1,32 @@
 /* eslint-disable */
-import React from 'react';
+import React, { useContext } from 'react';
+import ThemeContext from '../context/theme';
+import ScaleLoader from 'react-spinners/ScaleLoader';
+import { css } from '@emotion/react';
 
-export function CoinInfo({ coinData, id }) {
+const overrideInfo = css`
+  margin: 0 auto;
+  border-color: blue;
+  position: relative;
+  left: 45%;
+  top: 140px;
+`;
+
+export function CoinInfo({ coinData, loading }) {
+  const theme = useContext(ThemeContext);
+  if (!coinData) {
+    return (
+      <div className={`coin-stat-${theme}`}>
+        <ScaleLoader
+          color={'rgb(65, 182, 104)'}
+          loading={loading}
+          css={overrideInfo}
+          size={150}
+        />
+      </div>
+    );
+  }
+
   const {
     market_data: {
       market_cap,
@@ -12,9 +37,9 @@ export function CoinInfo({ coinData, id }) {
     },
     market_cap_rank,
   } = coinData;
-  console.log(market_cap.usd);
+
   return (
-    <div className="coin-stat">
+    <div className={`coin-stat-${theme}`}>
       <h2>Coin Statistics</h2>
       <p>
         Market Cap Rank <b>#{market_cap_rank}</b>
