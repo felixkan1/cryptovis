@@ -1,11 +1,10 @@
-# Crypto Vis
+# Crypto Watch
 
 Keep up to date with cryptocurrencies
 
-We provide up to date info on prices, social feeds(twitter and reddit) and watch list on your favourite cryptocurrencies
+Crypto Watch is a React app built for checking the latest prices and social feeds of the top 250 cryptocurrencies
 
 Data provided by [CoinGecko API](https://www.coingecko.com/en/api) 
-
 
 [Demo](https://cryptovis.herokuapp.com/) 
 
